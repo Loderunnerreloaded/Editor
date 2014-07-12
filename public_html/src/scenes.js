@@ -99,10 +99,6 @@ Crafty.scene('Editor', function() {
             for (var y = 0; y < Game.map_grid.height; y++) {
                            
                 for (var x = 0; x < Game.map_grid.width; x++) {
-                    
-                    
-
-                    console.log('in for' + ' ' + map_comp);
 
                     if (map_comp[y][x] == 'W') {
                         Crafty.e('Stone').at(x + 1, y);
