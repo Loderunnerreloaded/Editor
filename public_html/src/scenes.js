@@ -27,7 +27,7 @@ var map_comp = [
 
 //var map_comp = new Array();
 
-var currentTile;
+
 
 var moving = ('KeyDown', function(e) {
         if (e.key == Crafty.keys.LEFT_ARROW) {
@@ -45,6 +45,8 @@ var moving = ('KeyDown', function(e) {
     });
 
 Crafty.scene('Editor', function() {
+    
+var currentTile;
 
     $(document).keypress(function(e) {
         if (e.which == 49 || e.which == 97) {
@@ -58,7 +60,7 @@ Crafty.scene('Editor', function() {
             currentTile.bind('KeyDown', moving);
            
         }
-        if (e.which == 50 || e.which == 98) {
+        else if (e.which == 50 || e.which == 98) {
             if (currentTile != undefined)
             {
                 currentTile.destroy();
@@ -126,39 +128,36 @@ Crafty.scene('Editor', function() {
             console.log(map_comp);
             currentTile.unbind('KeyDown', moving);
             
-            map_comp[currentTile.y /24] = map_comp[currentTile.y /24].substring(1,currentTile.x / 24) + currentTile.id + map_comp[currentTile.y /24].substring(currentTile.x / 24, map_comp[currentTile.y /24].length - 1);
+            map_comp[currentTile.y /24] = map_comp[currentTile.y /24].substring(0,currentTile.x / 24) + currentTile.id + map_comp[currentTile.y /24].substring((currentTile.x / 24) + 1, map_comp[currentTile.y /24].length);
             
             for (var y = 0; y < Game.map_grid.height; y++) {
                            
                 for (var x = 0; x < Game.map_grid.width; x++) {
 
                     if (map_comp[y][x] == 'W') {
-                        Crafty.e('Stone').at(x + 1, y);
+                        Crafty.e('Stone').at(x, y);
                         }
                     if (map_comp[y][x] == 'S') {
-                        Crafty.e('SolidStone').at(x + 1, y);
+                        Crafty.e('SolidStone').at(x, y);
                         }
-                        
-                    if (map_comp[y][x] == 'C') {
-                        //Crafty.e('Concrete').at(x+1, y+1);					
-                    }
+
                     if (map_comp[y][x] == 'H') {
-                        Crafty.e('Ladder').at(x + 1, y);
+                        Crafty.e('Ladder').at(x, y);
                         
                     }
                     if (map_comp[y][x] == '-') {
-                        Crafty.e('Pole').at(x + 1, y);
+                        Crafty.e('Pole').at(x, y);
                        
                     }
                     if (map_comp[y][x] == 'T') {
-                        Crafty.e('Treasure').at(x + 1, y);
+                        Crafty.e('Treasure').at(x, y);
                         
                     }
                     if (map_comp[y][x] == 'P') {
-                        Crafty.e('PlayerCharacter').at(x + 1, y);  
+                        Crafty.e('PlayerCharacter').at(x, y);  
                     }
                     if (map_comp[y][x] == 'E') {
-                        Crafty.e('Enemy').at(x + 1, y);   
+                        Crafty.e('Enemy').at(x, y);   
                     }
                 }
             }
