@@ -85,4 +85,17 @@ Crafty.c('Enemy', {
     id: "E"
 });
 
+Crafty.c('Final_Ladder', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_final');
+    },
+    id: "h"
+});
+Crafty.c('Ausgang', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_ausgang');
+    },
+    id: "X"
+});
+
 
