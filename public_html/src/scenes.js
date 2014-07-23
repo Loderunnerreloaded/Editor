@@ -25,7 +25,9 @@ var map_comp = [
     ''   // nicht entfernen!   
 ];
 
-//var map_comp = new Array();
+var map_entity = new Array();
+
+map_entity = map_comp;
 
 
 
@@ -47,6 +49,9 @@ var moving = ('KeyDown', function(e) {
 Crafty.scene('Editor', function() {
     
 var currentTile;
+var currentEntity;
+var y;
+var x;
 
     $(document).keypress(function(e) {
         if (e.which == 49 || e.which == 97) {
@@ -122,10 +127,23 @@ var currentTile;
             currentTile.bind('KeyDown', moving);
            
         }
+        else if (e.which == 48 || e.which == 96) {
+                if (currentTile != undefined)
+            {
+                currentTile.destroy();
+                
+            }
+             currentTile = Crafty.e('Cursor').at(10, 10);
+                        
+            currentTile.bind('KeyDown', moving);
+
+        }
+
         else if (e.which == 13) {
-            
+           
             map_comp[currentTile.y / 24][ currentTile.x / 24] = currentTile.id;
             console.log(map_comp);
+
             currentTile.unbind('KeyDown', moving);
             
             map_comp[currentTile.y /24] = map_comp[currentTile.y /24].substring(0,currentTile.x / 24) + currentTile.id + map_comp[currentTile.y /24].substring((currentTile.x / 24) + 1, map_comp[currentTile.y /24].length);
@@ -134,31 +152,68 @@ var currentTile;
                            
                 for (var x = 0; x < Game.map_grid.width; x++) {
 
-                    if (map_comp[y][x] == 'W') {
-                        Crafty.e('Stone').at(x, y);
+                    if (map_entity[y][x] == 'W') {
+                         if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
                         }
-                    if (map_comp[y][x] == 'S') {
-                        Crafty.e('SolidStone').at(x, y);
+                         currentEntity = Crafty.e('Stone').at(x, y);
+                        }
+                    if (map_entity[y][x] == 'S') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity =  Crafty.e('SolidStone').at(x, y);
                         }
 
-                    if (map_comp[y][x] == 'H') {
-                        Crafty.e('Ladder').at(x, y);
+                    if (map_entity[y][x] == 'H') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity = Crafty.e('Ladder').at(x, y);
                         
                     }
-                    if (map_comp[y][x] == '-') {
-                        Crafty.e('Pole').at(x, y);
+                    if (map_entity[y][x] == '-') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity =  Crafty.e('Pole').at(x, y);
                        
                     }
-                    if (map_comp[y][x] == 'T') {
-                        Crafty.e('Treasure').at(x, y);
+                    if (map_entity[y][x] == 'T') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity =  Crafty.e('Treasure').at(x, y);
                         
                     }
-                    if (map_comp[y][x] == 'P') {
-                        Crafty.e('PlayerCharacter').at(x, y);  
+                    if (map_entity[y][x] == 'P') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity =  Crafty.e('PlayerCharacter').at(x, y);  
                     }
-                    if (map_comp[y][x] == 'E') {
-                        Crafty.e('Enemy').at(x, y);   
+                    if (map_entity[y][x] == 'E') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                         currentEntity =  Crafty.e('Enemy').at(x, y);   
                     }
+                    
+                    if (map_entity[y][x] == 'C') {
+                        if (currentEntity != undefined)
+                        {
+                            currentEntity.destroy();
+                        }
+                        
+                    }
+
                 }
             }
         }
@@ -171,7 +226,7 @@ var currentTile;
 Crafty.scene('Loading', function() {
 
     // Load our sprite map image
-    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png'], function() {
+    Crafty.load(['assets/assets-yellow.png', 'assets/Gitter-03.png', 'assets/cursor.png'], function() {
 
         Crafty.sprite(24, 'assets/assets-yellow.png', {
             spr_treasure: [0, 0],
@@ -191,15 +246,17 @@ Crafty.scene('Loading', function() {
         Crafty.sprite(24, 'assets/playersprite.png', {
             spr_player: [0, 0],
         });
+        
+        Crafty.sprite(24, 'assets/cursor.png', {
+            spr_cursor: [0, 0],
+        });
 
         Crafty.background('url(assets/Gitter-03.png)');
 
-        Crafty.e('2D, DOM, Text')
-                .text("Press Key To Start!")
-                .attr({x: 0, y: Game.height() / 2 - 24, w: Game.width()})
-                .css({"text-align": "center"})
-                .textFont({size: '15px', weight: 'bold'})
-                .textColor("#FFFFFF");
+                var tutorial = Crafty.e('2D, DOM, Text, Image')
+                .image("assets/Tutorial.png");
+        tutorial.y = 1;
+        tutorial.x = 1; 
     });
 
     this.start_game = function() {

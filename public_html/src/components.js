@@ -36,6 +36,14 @@ Crafty.c('Stone', {
     id: "W"
 });
 
+Crafty.c('Cursor', {
+    init: function() {
+        this.requires('Actor, Multiway, Collision, spr_cursor');
+    },
+    id: "C"
+});
+
+
 Crafty.c('SolidStone', {
     init: function() {
         this.requires('Actor, Multiway, Collision, spr_solidstone');
